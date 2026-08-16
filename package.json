@@ -1,0 +1,76 @@
+{
+  "name": "test-automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+
+    "test:api": "playwright test --project=api",
+    "api:grep": "playwright test --project=api --grep",
+    "api:debug": "playwright test --project=api --debug --grep",
+
+    "api:smoke": "playwright test --project=api --grep @smoke",
+    "api:performance": "playwright test --project=api --grep @performance",
+    "api:regression": "playwright test --project=api --grep-invert \"@smoke|@performance|@cleanup\"",
+    "api:cleanup": "playwright test --project=api --grep @cleanup",
+
+    "test:e2e": "playwright test --project=e2e-chrome",
+    "test:e2e:headed": "playwright test --project=e2e-chrome --headed",
+
+    "e2e:grep": "playwright test --project=e2e-chrome --headed --grep",
+    "e2e:debug": "playwright test --project=e2e-chrome --headed --debug --grep",
+
+    "e2e:smoke": "playwright test --project=e2e-chrome --grep @smoke",
+    "e2e:sanity": "playwright test --project=e2e-chrome --grep @sanity",
+    "e2e:regression": "playwright test --project=e2e-chrome --grep-invert \"@smoke|@sanity\"",
+
+    "e2e:chromium": "playwright test --project=e2e-chromium",
+    "e2e:firefox": "playwright test --project=e2e-firefox",
+    "e2e:webkit": "playwright test --project=e2e-webkit",
+    "e2e:edge": "playwright test --project=e2e-edge",
+    "e2e:chrome": "playwright test --project=e2e-chrome",
+    "e2e:desktop": "playwright test --project=e2e-chromium --project=e2e-firefox --project=e2e-webkit",
+
+    "test:report": "playwright show-report test-results/html-report",
+
+    "test:list": "playwright test --list",
+
+    "api:list": "playwright test --project=api --list",
+    "api:smoke:list": "playwright test --project=api --grep @smoke --list",
+    "api:performance:list": "playwright test --project=api --grep @performance --list",
+    "api:regression:list": "playwright test --project=api --grep-invert \"@smoke|@performance|@cleanup\" --list",
+
+    "e2e:list": "playwright test --project=e2e-chrome --list",
+    "e2e:smoke:list": "playwright test --project=e2e-chrome --grep @smoke --list",
+    "e2e:sanity:list": "playwright test --project=e2e-chrome --grep @sanity --list",
+    "e2e:regression:list": "playwright test --project=e2e-chrome --grep-invert \"@smoke|@sanity\" --list",
+
+    "//": "Security scripts",
+    "security:axios": "node -e \"const fs=require('fs');const p='package-lock.json';if(!fs.existsSync(p)){console.log('package-lock.json not found');process.exit(0);}const l=JSON.parse(fs.readFileSync(p,'utf8'));const ax=l.packages&&l.packages['node_modules/axios'];if(!ax){console.log('No axios dependency found in lockfile');process.exit(0);}console.log('axios found in lockfile:',ax.version||'unknown');\"",
+    "security:audit": "npm audit --audit-level=high",
+    "security:scan": "npm run security:axios && npm run security:audit",
+
+    "//": "cli dashboard scripts",
+    "test:e2e:cli-dashboard:smoke": "playwright test --project=e2e-chrome --grep @smoke --reporter=line --workers=3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.59",
+    "@types/jsonpath-plus": "^5.0.5",
+    "@types/node": "^24.5.2",
+    "csv": "^6.3.9",
+    "moment": "^2.30.1",
+    "playwright-teamcity-reporter": "^1.0.3",
+    "winston": "^3.13.0"
+  },
+  "dependencies": {
+    "jsonpath-plus": "^10.3.0",
+    "xlsx-js-style": "^1.2.0"
+  }
+}
